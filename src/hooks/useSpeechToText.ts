@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Voice from '@react-native-voice/voice';
 import { Alert } from 'react-native';
 import { handleError, createSpeechError } from '../utils/errorHandler';

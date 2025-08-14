@@ -2,6 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { MaterialIcons } from '@expo/vector-icons'; 
+import { MainTabParamList, AiCareerStackParamList, MyCvsStackParamList } from '../types/navigation';
 
 // Screens
 import DashboardScreen from '../screens/DashboardScreen';
@@ -11,10 +12,13 @@ import AiCareerHubScreen from '../screens/AiCareerHubScreen';
 import InterviewSimulatorScreen from '../screens/InterviewSimulatorScreen';
 import SalaryNegotiationScreen from '../screens/SalaryNegotiationScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import MagicApplyScreen from '../screens/MagicApplyScreen';
+import CoverLetterGeneratorScreen from '../screens/CoverLetterGeneratorScreen';
 
-const Tab = createBottomTabNavigator();
-const AiCareerStack = createStackNavigator();
-const MyCvsStack = createStackNavigator();
+
+const Tab = createBottomTabNavigator<MainTabParamList>();
+const AiCareerStack = createStackNavigator<AiCareerStackParamList>();
+const MyCvsStack = createStackNavigator<MyCvsStackParamList>();
 
 // Stack pour la gestion des CVs
 const MyCvsStackScreen = () => (
@@ -29,6 +33,8 @@ const AiCareerStackScreen = () => (
     <AiCareerStack.Screen name="AiCareerHub" component={AiCareerHubScreen} />
     <AiCareerStack.Screen name="InterviewSimulator" component={InterviewSimulatorScreen} />
     <AiCareerStack.Screen name="SalaryNegotiation" component={SalaryNegotiationScreen} />
+    <AiCareerStack.Screen name="MagicApply" component={MagicApplyScreen} />
+    <AiCareerStack.Screen name="CoverLetterGenerator" component={CoverLetterGeneratorScreen} />
   </AiCareerStack.Navigator>
 );
 
@@ -37,7 +43,7 @@ const BottomTabNavigator = () => {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
-          let iconName;
+          let iconName: React.ComponentProps<typeof MaterialIcons>['name'] = 'error';
 
           if (route.name === 'Tableau de Bord') {
             iconName = focused ? 'dashboard' : 'dashboard';

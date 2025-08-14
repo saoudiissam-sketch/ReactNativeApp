@@ -6,13 +6,13 @@ import Input from '../common/Input';
 interface CvSectionModalProps {
   visible: boolean;
   title: string;
-  data: any;
+  data: Record<string, any>;
   onClose: () => void;
-  onSave: (data: any) => void;
+  onSave: (data: Record<string, any>) => void;
   fields: {
     key: string;
     label: string;
-    type?: 'text' | 'multiline';
+    type?: string;
     required?: boolean;
   }[];
 }

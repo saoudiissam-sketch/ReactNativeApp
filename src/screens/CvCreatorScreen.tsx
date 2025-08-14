@@ -14,6 +14,8 @@ const initialCvData = {
   experience: { jobTitle: '', company: '', startDate: '', endDate: '', description: '' },
   education: { degree: '', school: '', startDate: '', endDate: '' },
   skills: '',
+  createdAt: '',
+  updatedAt: '',
 };
 
 const SECTION_CONFIGS = {
@@ -53,9 +55,11 @@ const SECTION_CONFIGS = {
   },
 };
 
+type SectionKey = keyof typeof SECTION_CONFIGS;
+
 const CvCreatorScreen = () => {
   const [cvData, setCvData] = useState(initialCvData);
-  const [currentSection, setCurrentSection] = useState<string | null>(null);
+  const [currentSection, setCurrentSection] = useState<SectionKey | null>(null);
   const { pickCV, isLoading } = useDocumentPicker();
 
   useEffect(() => {
@@ -71,7 +75,7 @@ const CvCreatorScreen = () => {
     }
   }, []);
 
-  const handleSectionSave = (sectionKey: string, data: any) => {
+  const handleSectionSave = (sectionKey: SectionKey, data: any) => {
     const updatedCvData = {
       ...cvData,
       [sectionKey]: sectionKey === 'skills' ? data.skills : data,
@@ -108,7 +112,7 @@ const CvCreatorScreen = () => {
     );
   };
 
-  const getSectionData = (sectionKey: string) => {
+  const getSectionData = (sectionKey: SectionKey) => {
     if (sectionKey === 'skills') {
       return { skills: cvData.skills };
     }

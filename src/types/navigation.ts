@@ -1,22 +1,20 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import { CompositeScreenProps } from '@react-navigation/native';
+import { CompositeScreenProps, NavigatorScreenParams } from '@react-navigation/native';
 
 // Types pour les paramètres des écrans
 export type RootStackParamList = {
   Main: undefined;
   CvCreator: { cvId?: string } | undefined;
   VoiceCvCreator: undefined;
-  MagicApply: undefined;
-  CoverLetterGenerator: undefined;
   Portfolio: undefined;
 };
 
 export type MainTabParamList = {
   'Tableau de Bord': undefined;
-  'Mes CVs': undefined;
+  'Mes CVs': NavigatorScreenParams<MyCvsStackParamList>;
   'Recherche': undefined;
-  'Carrière IA': undefined;
+  'Carrière IA': NavigatorScreenParams<AiCareerStackParamList>;
   'Profil': undefined;
 };
 
@@ -24,6 +22,8 @@ export type AiCareerStackParamList = {
   AiCareerHub: undefined;
   InterviewSimulator: undefined;
   SalaryNegotiation: undefined;
+  MagicApply: undefined;
+  CoverLetterGenerator: undefined;
 };
 
 export type MyCvsStackParamList = {

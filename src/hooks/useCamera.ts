@@ -1,37 +1,34 @@
 import { useState, useEffect, useRef } from 'react';
-import { Camera, CameraType, FlashMode } from 'expo-camera';
+import { CameraView, CameraType, FlashMode, useCameraPermissions } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import { Alert } from 'react-native';
 
 export const useCamera = () => {
-  const [hasPermission, setHasPermission] = useState<boolean | null>(null);
+  const [permission, requestPermission] = useCameraPermissions();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState<boolean | null>(null);
-  const [cameraType, setCameraType] = useState<CameraType>(CameraType.front);
-  const [flashMode, setFlashMode] = useState<FlashMode>(FlashMode.off);
+  const [cameraType, setCameraType] = useState<CameraType>('front');
+  const [flashMode, setFlashMode] = useState<FlashMode>('off');
   const [isRecording, setIsRecording] = useState(false);
   const [videoUri, setVideoUri] = useState<string | null>(null);
   
-  const cameraRef = useRef<Camera | null>(null);
+  const cameraRef = useRef<CameraView | null>(null);
 
   useEffect(() => {
     (async () => {
-      const { status: cameraStatus } = await Camera.requestCameraPermissionsAsync();
       const { status: mediaLibraryStatus } = await MediaLibrary.requestPermissionsAsync();
-      
-      setHasPermission(cameraStatus === 'granted');
       setHasMediaLibraryPermission(mediaLibraryStatus === 'granted');
     })();
   }, []);
 
   const toggleCameraType = () => {
     setCameraType(current => 
-      current === CameraType.back ? CameraType.front : CameraType.back
+      current === 'back' ? 'front' : 'back'
     );
   };
 
   const toggleFlash = () => {
     setFlashMode(current => 
-      current === FlashMode.off ? FlashMode.on : FlashMode.off
+      current === 'off' ? 'on' : 'off'
     );
   };
 
@@ -43,7 +40,7 @@ export const useCamera = () => {
           base64: false,
         });
         
-        if (hasMediaLibraryPermission) {
+        if (hasMediaLibraryPermission && photo) {
           await MediaLibrary.saveToLibraryAsync(photo.uri);
         }
         
@@ -62,14 +59,14 @@ export const useCamera = () => {
       try {
         setIsRecording(true);
         const video = await cameraRef.current.recordAsync({
-          quality: Camera.Constants.VideoQuality['720p'],
           maxDuration: 300, // 5 minutes max
         });
         
-        setVideoUri(video.uri);
-        
-        if (hasMediaLibraryPermission) {
-          await MediaLibrary.saveToLibraryAsync(video.uri);
+        if(video) {
+          setVideoUri(video.uri);
+          if (hasMediaLibraryPermission) {
+            await MediaLibrary.saveToLibraryAsync(video.uri);
+          }
         }
         
         return video;
@@ -96,7 +93,8 @@ export const useCamera = () => {
 
   return {
     // Permissions
-    hasPermission,
+    permission,
+    requestPermission,
     hasMediaLibraryPermission,
     
     // Camera settings

@@ -176,7 +176,7 @@ export const validateCV = (data: any): { success: boolean; errors: string[] } =>
     if (error instanceof z.ZodError) {
       return {
         success: false,
-        errors: error.errors.map(err => `${err.path.map(String).join('.')}: ${err.message}`)
+        errors: error.issues.map((err: z.ZodIssue) => `${err.path.join('.')}: ${err.message}`)
       };
     }
     return { success: false, errors: ['Erreur de validation inconnue'] };
@@ -191,7 +191,7 @@ export const validateMagicApply = (data: any): { success: boolean; errors: strin
     if (error instanceof z.ZodError) {
       return {
         success: false,
-        errors: error.errors.map(err => `${err.path.map(String).join('.')}: ${err.message}`)
+        errors: error.issues.map((err: z.ZodIssue) => `${err.path.join('.')}: ${err.message}`)
       };
     }
     return { success: false, errors: ['Erreur de validation inconnue'] };

@@ -5,13 +5,15 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { ScreenContainer } from '../components/layout/ScreenContainer';
 import { AiCareerStackScreenProps } from '../types/navigation';
 
+import { AiCareerStackParamList } from '../types/navigation';
+
 type ToolCard = {
   id: string;
   title: string;
   description: string;
   icon: keyof typeof MaterialIcons.glyphMap;
   color: string;
-  route: keyof import('../types/navigation').AiCareerStackParamList | keyof import('../types/navigation').RootStackParamList;
+  route: keyof AiCareerStackParamList;
 };
 
 const AI_TOOLS: ToolCard[] = [
@@ -50,8 +52,8 @@ const AI_TOOLS: ToolCard[] = [
 ];
 
 const AiCareerHubScreen = ({ navigation }: AiCareerStackScreenProps<'AiCareerHub'>) => {
-  const handleToolPress = (route: ToolCard['route']) => {
-    navigation.navigate(route as any);
+  const handleToolPress = (route: keyof AiCareerStackParamList) => {
+    navigation.navigate(route);
   };
 
   return (

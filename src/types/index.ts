@@ -14,3 +14,34 @@ export interface JobApplication {
   status: ApplicationStatus;
   notes?: string;
 }
+
+export interface CVData {
+  personalInfo: {
+    fullName: string;
+    jobTitle: string;
+    email: string;
+    phone: string;
+  };
+  experience: {
+    jobTitle: string;
+    company: string;
+    startDate: string;
+    endDate: string;
+    description: string;
+  };
+  education: {
+    degree: string;
+    school: string;
+    startDate: string;
+    endDate: string;
+  };
+  skills: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CV {
+  id: string;
+  name: string;
+  data: CVData;
+}

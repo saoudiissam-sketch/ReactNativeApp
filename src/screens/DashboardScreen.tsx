@@ -26,6 +26,10 @@ const DashboardScreen = ({ navigation }: MainTabScreenProps<'Tableau de Bord'>) 
     }, [loadCVs])
   );
 
+  const handleNavigate = (destination: any, params?: any) => {
+    navigation.navigate(destination, params);
+  };
+
   const quickActions = [
     {
       id: 'create-cv',
@@ -33,7 +37,7 @@ const DashboardScreen = ({ navigation }: MainTabScreenProps<'Tableau de Bord'>) 
       description: 'Commencer un nouveau CV',
       icon: 'add-circle' as keyof typeof MaterialIcons.glyphMap,
       color: 'bg-blue-500',
-      onPress: () => navigation.navigate('Mes CVs')
+      onPress: () => handleNavigate('Mes CVs')
     },
     {
       id: 'magic-apply',
@@ -41,7 +45,7 @@ const DashboardScreen = ({ navigation }: MainTabScreenProps<'Tableau de Bord'>) 
       description: 'Candidature intelligente',
       icon: 'auto-fix-high' as keyof typeof MaterialIcons.glyphMap,
       color: 'bg-purple-500',
-      onPress: () => navigation.navigate('MagicApply')
+      onPress: () => handleNavigate('Carrière IA', { screen: 'MagicApply' })
     },
     {
       id: 'interview',
@@ -49,7 +53,7 @@ const DashboardScreen = ({ navigation }: MainTabScreenProps<'Tableau de Bord'>) 
       description: 'S\'entraîner avec l\'IA',
       icon: 'videocam' as keyof typeof MaterialIcons.glyphMap,
       color: 'bg-green-500',
-      onPress: () => navigation.navigate('Carrière IA')
+      onPress: () => handleNavigate('Carrière IA', { screen: 'InterviewSimulator' })
     },
     {
       id: 'search',
@@ -57,7 +61,7 @@ const DashboardScreen = ({ navigation }: MainTabScreenProps<'Tableau de Bord'>) 
       description: 'Trouver des opportunités',
       icon: 'search' as keyof typeof MaterialIcons.glyphMap,
       color: 'bg-orange-500',
-      onPress: () => navigation.navigate('Recherche')
+      onPress: () => handleNavigate('Recherche')
     }
   ];
 

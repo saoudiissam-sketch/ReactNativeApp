@@ -1,33 +1,13 @@
 import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { CVData } from '../../types';
 
-interface CvData {
-  personalInfo: {
-    fullName: string;
-    jobTitle: string;
-    email: string;
-    phone: string;
-  };
-  experience: {
-    jobTitle: string;
-    company: string;
-    startDate: string;
-    endDate: string;
-    description: string;
-  };
-  education: {
-    degree: string;
-    school: string;
-    startDate: string;
-    endDate: string;
-  };
-  skills: string;
-}
+type SectionKey = 'personalInfo' | 'experience' | 'education' | 'skills';
 
 interface CvPreviewProps {
-  cvData: CvData;
-  onSectionPress: (section: string) => void;
+  cvData: CVData;
+  onSectionPress: (section: SectionKey) => void;
 }
 
 const CvPreview: React.FC<CvPreviewProps> = ({ cvData, onSectionPress }) => {
