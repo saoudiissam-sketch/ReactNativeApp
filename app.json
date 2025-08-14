@@ -1,0 +1,97 @@
+{
+  "expo": {
+    "name": "CV Builder IA",
+    "slug": "cv-builder-ia",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": false,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#3B82F6"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.cvbuilder.ia",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Cette application utilise la caméra pour le simulateur d'entretien et la prise de photos de profil.",
+        "NSMicrophoneUsageDescription": "Cette application utilise le microphone pour la création de CV vocale et les simulations d'entretien.",
+        "NSPhotoLibraryUsageDescription": "Cette application accède à votre photothèque pour importer des documents et sauvegarder vos créations.",
+        "NSDocumentsFolderUsageDescription": "Cette application accède au dossier Documents pour importer et exporter vos CV."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#3B82F6"
+      },
+      "package": "com.cvbuilder.ia",
+      "edgeToEdgeEnabled": true,
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.INTERNET",
+        "android.permission.ACCESS_NETWORK_STATE",
+        "android.permission.VIBRATE",
+        "com.android.vending.BILLING"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/icon.png",
+          "color": "#3B82F6",
+          "sounds": []
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Permettre à $(PRODUCT_NAME) d'utiliser votre caméra pour le simulateur d'entretien.",
+          "microphonePermission": "Permettre à $(PRODUCT_NAME) d'utiliser votre microphone pour la création vocale de CV.",
+          "recordAudioAndroid": true
+        }
+      ],
+      [
+        "@react-native-voice/voice",
+        {
+          "microphonePermission": "Cette application utilise le microphone pour la reconnaissance vocale.",
+          "speechRecognitionPermission": "Cette application utilise la reconnaissance vocale pour créer vos CV."
+        }
+      ],
+      [
+        "expo-document-picker",
+        {
+          "iCloudContainerEnvironment": "Production"
+        }
+      ],
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "Permettre à $(PRODUCT_NAME) d'accéder à vos photos pour sauvegarder vos créations.",
+          "savePhotosPermission": "Permettre à $(PRODUCT_NAME) de sauvegarder des photos dans votre galerie.",
+          "isAccessMediaLocationEnabled": true
+        }
+      ]
+    ],
+    "notification": {
+      "icon": "./assets/icon.png",
+      "color": "#3B82F6"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "runtimeVersion": "exposdk:53.0.0"
+  }
+}

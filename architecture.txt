@@ -1,0 +1,85 @@
+Architecture Proposée pour l'Application Mobile (React Native)
+L'objectif est de créer une base de code unique, maintenable et performante pour iOS et Android, tout en réutilisant la logique métier existante.
+1. Philosophie et Stack Technologique
+Framework : React Native avec Expo. Expo simplifie considérablement le développement, la gestion des builds et les mises à jour OTA (Over-The-Air). Il gère nativement une grande partie des configurations complexes.
+Langage : TypeScript, pour maintenir la robustesse et la cohérence avec le projet web.
+UI & Theming : NativeWind est le choix logique pour traduire l'esthétique de Tailwind CSS vers React Native. On peut également envisager une bibliothèque de composants comme Tamagui pour des performances optimisées et un theming avancé.
+Navigation : React Navigation est le standard de la communauté. Nous utiliserons une combinaison de Bottom Tab Navigator pour les sections principales et de Stack Navigator pour les flux internes.
+Gestion d'état : La structure actuelle avec React Context est viable pour le prototype. Pour une scalabilité à long terme, une migration vers Zustand est recommandée. C'est une solution légère, simple et performante qui évite le "boilerplate" de Redux.
+Persistance des données : localStorage n'existe pas en React Native. Nous utiliserons MMKV de Shopify. C'est une bibliothèque de stockage clé-valeur extrêmement rapide et chiffrée, bien plus performante que l'alternative standard AsyncStorage.
+2. Structure du Projet
+Une organisation claire est essentielle pour la maintenabilité.
+/src
+├── api/
+│   └── geminiService.ts    # Fonctions d'appel à l'API Gemini (réutilisables)
+├── assets/
+│   ├── fonts/
+│   └── images/
+├── components/
+│   ├── common/             # Boutons, Inputs, Cards réutilisables
+│   ├── layout/             # Conteneurs d'écran, Modales
+│   └── specific/           # Composants spécifiques à une fonctionnalité
+├── config/
+│   ├── achievements.ts
+│   └── plans.ts
+├── context/
+│   └── AppContext.tsx      # Gestion d'état (adapté pour MMKV)
+├── hooks/
+│   ├── useSpeechToText.ts  # Adapté avec react-native-voice
+│   └── useGeolocation.ts   # Adapté avec expo-location
+├── navigation/
+│   ├── AppNavigator.tsx    # Stack principal
+│   └── BottomTabNavigator.tsx
+├── screens/
+│   ├── DashboardScreen.tsx
+│   ├── CvCreatorScreen.tsx
+│   ├── JobSearchScreen.tsx
+│   ├── ProfileScreen.tsx
+│   └── ...                 # Toutes les autres vues deviennent des écrans
+├── types/
+│   └── index.ts            # Fichier de types (inchangé)
+└── utils/
+    ├── cvFormatter.ts
+    └── portfolioRenderer.ts
+App.tsx                     # Point d'entrée principal
+babel.config.js
+metro.config.js
+package.json
+
+3. Intégration des Fonctionnalités Natives
+Microphone : react-native-voice pour la reconnaissance vocale.
+Caméra : expo-camera pour le simulateur d'entretien.
+Système de fichiers : expo-document-picker et expo-file-system pour l'import de CV.
+Permissions : Expo gère les demandes de permission de manière unifiée pour iOS et Android.
+Fonctionnalités du Prototype Mobile et Adaptation UX
+L'expérience utilisateur mobile doit être fluide, intuitive et tirer parti des capacités du téléphone.
+1. Navigation Principale (Bottom Tab)
+Une barre de navigation en bas de l'écran avec 4 ou 5 icônes claires :
+Tableau de Bord : Écran d'accueil dynamique.
+Mes CVs : Une liste des CV créés, avec un bouton flottant (+) pour en créer un nouveau.
+Recherche : La fonctionnalité de recherche d'emploi.
+Carrière IA : Un hub regroupant les outils d'IA (Analyse, Simulateur, etc.).
+Profil : Gestion du profil utilisateur et des abonnements.
+2. Création de CV (UX optimisée)
+Création Vocale : L'interface sera un "wizard" plein écran, question par question, avec un grand bouton de micro central, rendant l'expérience très naturelle sur mobile.
+Import de Documents : L'utilisateur pourra importer des fichiers directement depuis sa photothèque, ses fichiers locaux ou des services cloud (iCloud, Google Drive) via le sélecteur de documents natif.
+3. Éditeur de CV
+Abandon du side-by-side : L'éditeur de CV sera repensé. L'écran affichera un aperçu du CV (non-interactif). L'utilisateur pourra :
+Taper sur une section (ex: "Expériences") pour ouvrir une nouvelle modale ou un nouvel écran dédié à l'édition de cette section.
+Utiliser un menu "sections" pour naviguer rapidement entre les formulaires d'édition.
+Les modifications seront reflétées en temps réel sur le petit aperçu.
+4. Simulateur d'Entretien
+Utilisera la caméra frontale en plein écran.
+La question de l'entretien s'affichera en superposition en haut de l'écran.
+Un bouton d'enregistrement/arrêt sera clairement visible en bas.
+Le feedback sera présenté sous forme de cartes défilantes, adaptées à la lecture sur mobile.
+5. "Candidature Magique" (Magic Apply)
+L'utilisateur colle une URL.
+Une animation de chargement occupe l'écran.
+Le résultat est présenté sur un nouvel écran avec deux onglets en haut : "CV Optimisé" et "Lettre de Motivation".
+Des boutons "Copier" et "Partager" permettent d'utiliser facilement le contenu généré dans d'autres applications (email, LinkedIn).
+6. Notifications Push (Nouvelle fonctionnalité)
+C'est l'un des plus grands avantages du mobile. Nous intégrerons expo-notifications pour :
+Alerter l'utilisateur de nouvelles offres d'emploi correspondant à son profil.
+Notifier quand une tâche d'IA longue (comme une analyse vidéo) est terminée.
+Envoyer des rappels pour se préparer à un entretien.
