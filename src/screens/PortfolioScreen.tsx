@@ -4,11 +4,12 @@ import { View, Text, StyleSheet, ScrollView, Button, Share, Alert } from 'react-
 import { useFocusEffect } from '@react-navigation/native';
 import { ScreenContainer } from '../components/layout/ScreenContainer';
 import { storage } from '../storage/mmkv';
+import { CVData } from '../types';
 
 const CV_STORAGE_KEY = 'user-cv-1';
 
 const PortfolioScreen = () => {
-  const [cvData, setCvData] = useState(null);
+  const [cvData, setCvData] = useState<CVData | null>(null);
 
   useFocusEffect(
     useCallback(() => {
@@ -55,13 +56,14 @@ const PortfolioScreen = () => {
   };
 
   const onShare = async () => {
+    if (!cvData) return;
     try {
       const portfolioText = generatePortfolioText();
       await Share.share({
         message: portfolioText,
         title: `Portfolio de ${cvData.personalInfo.fullName}`
       });
-    } catch (error) {
+    } catch (error: any) {
       Alert.alert(error.message);
     }
   };

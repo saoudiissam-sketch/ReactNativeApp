@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { ScrollView, View, Text, TouchableOpacity, Alert, Modal } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
@@ -8,6 +8,7 @@ import { Button } from '../components/common/Button';
 import Input from '../components/common/Input';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import { useAppStore } from '../store/appStore';
+import { CV } from '../types';
 
 import { MyCvsStackScreenProps } from '../types/navigation';
 
@@ -146,7 +147,7 @@ const MyCvsScreen = ({ navigation }: MyCvsStackScreenProps<'MyCvsList'>) => {
             </View>
           ) : (
             <View className="space-y-4">
-              {cvs.map((cv) => (
+              {cvs.map((cv: CV) => (
                 <View key={cv.id} className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
                   <View className="flex-row items-start justify-between">
                     <View className="flex-1">
@@ -158,10 +159,10 @@ const MyCvsScreen = ({ navigation }: MyCvsStackScreenProps<'MyCvsList'>) => {
                       </Text>
                       <View className="flex-row items-center space-x-4">
                         <Text className="text-xs text-gray-500">
-                          Créé le {formatDate(cv.createdAt)}
+                          Créé le {formatDate(cv.data.createdAt)}
                         </Text>
                         <Text className="text-xs text-gray-500">
-                          Modifié le {formatDate(cv.updatedAt)}
+                          Modifié le {formatDate(cv.data.updatedAt)}
                         </Text>
                       </View>
                     </View>

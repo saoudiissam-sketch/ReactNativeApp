@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import { ScreenContainer } from '../components/layout/ScreenContainer';
+import { MainTabScreenProps } from '../types/navigation';
 
-const ProfileScreen = ({ navigation }) => (
+const ProfileScreen = ({ navigation }: MainTabScreenProps<'Profil'>) => (
   <ScreenContainer>
     <View style={styles.container}>
       <Text style={styles.title}>Mon Profil</Text>

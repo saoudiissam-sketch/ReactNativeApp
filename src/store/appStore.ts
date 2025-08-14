@@ -1,37 +1,7 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { storage } from '../storage/mmkv';
-
-interface CVData {
-  personalInfo: {
-    fullName: string;
-    jobTitle: string;
-    email: string;
-    phone: string;
-  };
-  experience: {
-    jobTitle: string;
-    company: string;
-    startDate: string;
-    endDate: string;
-    description: string;
-  };
-  education: {
-    degree: string;
-    school: string;
-    startDate: string;
-    endDate: string;
-  };
-  skills: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface CV {
-  id: string;
-  name: string;
-  data: CVData;
-}
+import { CV, CVData } from '../types';
 
 interface User {
   id: string;

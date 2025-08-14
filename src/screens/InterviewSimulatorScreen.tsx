@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Button, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
-import { Camera, CameraPermissionStatus } from 'expo-camera';
+import { CameraView, useCameraPermissions } from 'expo-camera';
 import Voice from '@react-native-voice/voice';
 import { ScreenContainer } from '../components/layout/ScreenContainer';
 import { getInterviewFeedback, InterviewFeedback } from '../api/geminiService';
@@ -14,7 +14,7 @@ const questions = [
 ];
 
 const InterviewSimulatorScreen = () => {
-  const [permission, requestPermission] = Camera.useCameraPermissions();
+  const [permission, requestPermission] = useCameraPermissions();
   const [isInterviewStarted, setIsInterviewStarted] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   
@@ -28,8 +28,8 @@ const InterviewSimulatorScreen = () => {
   useEffect(() => {
     Voice.onSpeechStart = () => setIsRecording(true);
     Voice.onSpeechEnd = () => setIsRecording(false);
-    Voice.onSpeechError = e => setError(e.error?.message);
-    Voice.onSpeechResults = e => setRecognizedText(e.value ? e.value[0] : '');
+    Voice.onSpeechError = (e: any) => setError(e.error?.message);
+    Voice.onSpeechResults = (e: any) => setRecognizedText(e.value ? e.value[0] : '');
     return () => {
       Voice.destroy().then(Voice.removeAllListeners);
     };
@@ -80,7 +80,7 @@ const InterviewSimulatorScreen = () => {
     return <ScreenContainer><View style={styles.centered}><Text>Chargement des permissions...</Text></View></ScreenContainer>;
   }
 
-  if (permission.status !== CameraPermissionStatus.GRANTED) {
+  if (!permission.granted) {
     return (
       <ScreenContainer>
         <View style={styles.centered}>
@@ -105,7 +105,7 @@ const InterviewSimulatorScreen = () => {
 
   return (
     <View style={styles.fullScreen}>
-      <Camera style={styles.camera} facing={'front'} />
+      <CameraView style={styles.camera} facing={'front'} />
       <View style={styles.overlay}>
         <View style={styles.questionContainer}>
           <Text style={styles.questionText}>{questions[currentQuestionIndex]}</Text>
@@ -166,6 +166,7 @@ const styles = StyleSheet.create({
   recordButton: { backgroundColor: '#007AFF', width: 80, height: 80, borderRadius: 40, justifyContent: 'center', alignItems: 'center', borderWidth: 4, borderColor: 'white', marginTop: 10 },
   recordingButton: { backgroundColor: '#FF453A' },
   disabledButton: { backgroundColor: '#999' },
+  recordButtonText: { color: 'white', fontSize: 16 },
   feedbackDisplay: { minHeight: 250, justifyContent: 'center' },
   feedbackContainer: { backgroundColor: 'rgba(255, 255, 255, 0.9)', borderRadius: 10, padding: 15, marginVertical: 10 },
   feedbackTitle: { fontSize: 20, fontWeight: 'bold', marginBottom: 10, textAlign: 'center' },
